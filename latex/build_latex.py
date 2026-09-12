@@ -2,6 +2,7 @@
 """
 LaTeX Book Generator for 2000 Most Common Russian Words in Context
 Converts entries.json into modular LaTeX chapters and master document (A4 Two-Column format).
+No index, enhanced typography, thick bordered number badges, zero empty pages.
 """
 
 import os
@@ -14,9 +15,7 @@ def format_phonetics(text: str) -> str:
     """Wrap phonetic/IPA characters or bracketed transcriptions with ipafont."""
     if not text:
         return ""
-    # Wrap square bracketed phonetic substrings in meanings with ipafont
     text = re.sub(r'(\[[^\]]+\])', r'{\\ipafont \1}', text)
-    # Also wrap standalone phonetic vowels like ə and ɛ
     text = text.replace("ə", r"{\ipafont ə}")
     text = text.replace("ɛ", r"{\ipafont ɛ}")
     return text
@@ -111,45 +110,13 @@ def generate_chapters(entries: List[Dict[str, Any]], chapters_dir: str):
     print(f"Generated {len(CHAPTER_TITLES)} chapters in '{chapters_dir}'.")
 
 
-def generate_index(entries: List[Dict[str, Any]], backmatter_dir: str):
-    """Generate Alphabetical Russian Index in backmatter (4-column A4 format)."""
-    os.makedirs(backmatter_dir, exist_ok=True)
-    index_file = os.path.join(backmatter_dir, "index.tex")
-
-    sorted_entries = sorted(entries, key=lambda x: x["russian_word"].lower())
-
-    with open(index_file, "w", encoding="utf-8") as f:
-        f.write("\\chapter*{Alphabetical Word Index}\n")
-        f.write("\\addcontentsline{toc}{chapter}{Alphabetical Word Index}\n")
-        f.write("\\markboth{Alphabetical Word Index}{Alphabetical Word Index}\n\n")
-        f.write("{\\small\\color{mutedtext} Quick alphabetical index of all 2000 Russian headwords with frequency rankings.}\\par\n\n")
-        f.write("\\vspace{0.8em}\n")
-        f.write("\\begin{multicols}{4}\n")
-        f.write("\\raggedright\\footnotesize\n")
-
-        current_letter = ""
-        for e in sorted_entries:
-            word = e["russian_word"]
-            first_char = word[0].upper()
-            if first_char != current_letter:
-                current_letter = first_char
-                f.write(f"\n\\vspace{{0.6em}}\\noindent\\textbf{{\\normalsize\\sffamily\\color{{primary}} {current_letter}}}\\par\\vspace{{0.2em}}\n")
-            
-            esc_word = escape_latex(word)
-            num = e["number"]
-            f.write(f"\\noindent {esc_word} \\dotfill \\textbf{{\\color{{secondary}} {num}}}\\par\n")
-
-        f.write("\\end{multicols}\n")
-    print(f"Generated Alphabetical Index in '{index_file}'.")
-
-
 def generate_main_tex(latex_dir: str):
-    """Generate main.tex master document."""
+    """Generate main.tex master document with openany and no blank pages."""
     main_path = os.path.join(latex_dir, "main.tex")
     
-    chapter_includes = "\n".join([f"  \\input{{chapters/chapter{i}}}" for i in range(1, 9)])
+    chapter_inputs = "\n".join([f"\\input{{chapters/chapter{i}}}" for i in range(1, 9)])
 
-    content = f"""\\documentclass[10pt,twoside,openright]{{extbook}}
+    content = f"""\\documentclass[11pt,openany]{{extbook}}
 
 \\input{{preamble.tex}}
 
@@ -159,16 +126,15 @@ def generate_main_tex(latex_dir: str):
 \\frontmatter
 \\input{{frontmatter/titlepage}}
 \\tableofcontents
+\\clearpage
 \\input{{frontmatter/intro}}
+\\clearpage
 \\input{{frontmatter/pronunciation}}
+\\clearpage
 
 % Main Body
 \\mainmatter
-{chapter_includes}
-
-% Back Matter
-\\backmatter
-\\input{{backmatter/index}}
+{chapter_inputs}
 
 \\end{{document}}
 """
@@ -190,10 +156,7 @@ def main():
     cleaned_entries = [clean_source_typos(e) for e in entries]
 
     chapters_dir = os.path.join(latex_dir, "chapters")
-    backmatter_dir = os.path.join(latex_dir, "backmatter")
-
     generate_chapters(cleaned_entries, chapters_dir)
-    generate_index(cleaned_entries, backmatter_dir)
     generate_main_tex(latex_dir)
     print("LaTeX generation complete!")
 
