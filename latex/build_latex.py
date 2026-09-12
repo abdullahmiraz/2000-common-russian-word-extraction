@@ -3,6 +3,7 @@
 LaTeX Book Generator for 2000 Most Common Russian Words in Context
 Converts entries.json into modular LaTeX chapters and master document (A4 Two-Column format).
 No index, enhanced typography, thick bordered number badges, zero empty pages.
+Includes TeXstudio / editor magic comments for automatic XeLaTeX configuration.
 """
 
 import os
@@ -79,7 +80,7 @@ CHAPTER_TITLES = [
 
 
 def generate_chapters(entries: List[Dict[str, Any]], chapters_dir: str):
-    """Generate chapter .tex files with 2-column layout."""
+    """Generate chapter .tex files with 2-column layout and magic comments."""
     os.makedirs(chapters_dir, exist_ok=True)
     
     for ch_idx, (start_num, end_num, title, subtitle) in enumerate(CHAPTER_TITLES, start=1):
@@ -87,6 +88,8 @@ def generate_chapters(entries: List[Dict[str, Any]], chapters_dir: str):
         ch_file = os.path.join(chapters_dir, f"chapter{ch_idx}.tex")
         
         with open(ch_file, "w", encoding="utf-8") as f:
+            f.write(f"%!TEX root = ../main.tex\n")
+            f.write(f"%!TEX program = xelatex\n")
             f.write(f"% Chapter {ch_idx}: Words {start_num} - {end_num}\n")
             f.write(f"\\chapter{{{title}}}\n")
             f.write(f"\\label{{chap:chapter{ch_idx}}}\n\n")
@@ -111,12 +114,14 @@ def generate_chapters(entries: List[Dict[str, Any]], chapters_dir: str):
 
 
 def generate_main_tex(latex_dir: str):
-    """Generate main.tex master document with openany and no blank pages."""
+    """Generate main.tex master document with magic comments."""
     main_path = os.path.join(latex_dir, "main.tex")
     
     chapter_inputs = "\n".join([f"\\input{{chapters/chapter{i}}}" for i in range(1, 9)])
 
-    content = f"""\\documentclass[11pt,openany]{{extbook}}
+    content = f"""%!TEX program = xelatex
+%!TEX encoding = UTF-8 Unicode
+\\documentclass[11pt,openany]{{extbook}}
 
 \\input{{preamble.tex}}
 
