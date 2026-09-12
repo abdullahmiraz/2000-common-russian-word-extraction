@@ -1,0 +1,123 @@
+% ==============================================================================
+% Preamble: 2000 Most Common Russian Words in Context (A4 Two-Column Edition)
+% ==============================================================================
+
+\usepackage[a4paper,
+            top=18mm, bottom=18mm,
+            left=18mm, right=18mm,
+            headheight=20pt, headsep=14pt, footskip=20pt]{geometry}
+
+% Font and Language setup for XeLaTeX
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+
+\setmainfont{PT Serif}[
+  BoldFont = PT Serif Bold,
+  ItalicFont = PT Serif Italic,
+  BoldItalicFont = PT Serif Bold Italic
+]
+
+\setsansfont{PT Sans}[
+  BoldFont = PT Sans Bold,
+  ItalicFont = PT Sans Italic,
+  BoldItalicFont = PT Sans Bold Italic
+]
+
+\newfontfamily\ipafont{Charis SIL}[
+  BoldFont = Charis SIL Bold,
+  ItalicFont = Charis SIL Italic,
+  BoldItalicFont = Charis SIL Bold Italic
+]
+
+% Microtypography
+\usepackage{microtype}
+
+% Colors
+\usepackage[dvipsnames]{xcolor}
+\definecolor{primary}{HTML}{0F2942}      % Deep Classic Navy
+\definecolor{secondary}{HTML}{1A5276}    % Slate Blue
+\definecolor{accent}{HTML}{9C0006}       % Deep Ruby
+\definecolor{darktext}{HTML}{1C2833}     % High-contrast Body text
+\definecolor{mutedtext}{HTML}{566573}    % Neutral Gray for translations
+\definecolor{badgebg}{HTML}{1A5276}      % Badge background
+\definecolor{bordercol}{HTML}{D5D8DC}    % Subtle divider lines
+\definecolor{headerline}{HTML}{BDC3C7}
+
+% Headers and Footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{headerline}\leaders\hrule height \headrulewidth\hfill}}
+
+\fancyhead[LE]{\small\sffamily\color{mutedtext}\textbf{\thepage}\quad\textbar\quad\nouppercase{\leftmark}}
+\fancyhead[RO]{\small\sffamily\color{mutedtext}\nouppercase{\rightmark}\quad\textbar\quad\textbf{\thepage}}
+
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\small\sffamily\color{mutedtext}\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% Chapter & Section titles
+\usepackage{titlesec}
+\titleformat{\chapter}[hang]
+  {\normalfont\sffamily\LARGE\bfseries\color{primary}}
+  {\color{secondary}\thechapter.\ }
+  {0.4em}
+  {}
+  [\vspace{3pt}{\color{secondary}\hrule height 1pt}\vspace{6pt}]
+
+\titleformat{name=\chapter,numberless}[hang]
+  {\normalfont\sffamily\LARGE\bfseries\color{primary}}
+  {}
+  {0pt}
+  {}
+  [\vspace{3pt}{\color{secondary}\hrule height 1pt}\vspace{6pt}]
+
+\titlespacing*{\chapter}{0pt}{0pt}{14pt}
+
+\titleformat{\section}
+  {\normalfont\sffamily\normalsize\bfseries\color{secondary}}
+  {\thesection}{0.8em}{}
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+
+% Layout packages
+\usepackage{multicol}
+\setlength{\columnsep}{18pt}
+\setlength{\columnseprule}{0.3pt}
+\renewcommand{\columnseprulecolor}{\color{bordercol}}
+
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{parskip}
+
+% Hyperref
+\usepackage[hidelinks,
+            pdfauthor={Language Lab & Redesign},
+            pdftitle={2000 Most Common Russian Words in Context},
+            pdfsubject={Russian Vocabulary & Language Learning}]{hyperref}
+
+% Entry Macro for Dense, Readable 2-Column A4 Layout
+\newcommand{\vocentry}[6]{%
+  \noindent
+  \begin{minipage}{\linewidth}
+    \raggedright
+    {\footnotesize\sffamily\bfseries\color{white}\colorbox{badgebg}{\rule[-0.15ex]{0pt}{1.8ex}\hspace{0.2em}#1\hspace{0.2em}}}%
+    \hspace{0.35em}%
+    {\normalsize\bfseries\color{primary}#2}%
+    \hspace{0.3em}%
+    {\ipafont\footnotesize\color{secondary}[#3]}%
+    \hspace{0.25em}%
+    \textcolor{bordercol}{\textbf{--}}%
+    \hspace{0.25em}%
+    {\footnotesize\bfseries\itshape\color{darktext}#4}\par
+    \vspace{0.18em}%
+    \hangindent=0.8em\hangafter=1\footnotesize
+    \noindent\textcolor{darktext}{#5}\par
+    \vspace{0.08em}%
+    \noindent\textcolor{mutedtext}{\textit{#6}}%
+  \end{minipage}%
+  \vspace{0.5em}\par
+}

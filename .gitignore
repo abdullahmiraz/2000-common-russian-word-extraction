@@ -28,7 +28,7 @@ venv/
 ENV/
 env/
 
-# IDE & Editor files
+# IDE & OS
 .vscode/
 .idea/
 *.swp
@@ -36,6 +36,17 @@ env/
 *~
 .DS_Store
 
-# Temporary & PDF cache
-*.pdf
-!latex/*.pdf
+# LaTeX build artifacts
+latex/build/
+*.aux
+*.toc
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.xdv
+
+# Source PDF binaries from root
+/*.pdf
+!/latex/*.pdf
