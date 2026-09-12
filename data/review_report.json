@@ -1,0 +1,37 @@
+[
+  {
+    "number": 87,
+    "russian_word": "Co",
+    "issues": [
+      "Latin character(s) ['C', 'o'] in Russian word 'Co' (Source PDF homoglyph)"
+    ]
+  },
+  {
+    "number": 197,
+    "russian_word": "Про",
+    "issues": [
+      "Cyrillic character(s) ['а'] in English example: 'She couldn’t even think about а divorce.'"
+    ]
+  },
+  {
+    "number": 366,
+    "russian_word": "Оба",
+    "issues": [
+      "Unbalanced square brackets in English meaning: 'Both (for masculine nouns])'"
+    ]
+  },
+  {
+    "number": 959,
+    "russian_word": "Cтавить",
+    "issues": [
+      "Latin character(s) ['C'] in Russian word 'Cтавить' (Source PDF homoglyph)"
+    ]
+  },
+  {
+    "number": 1825,
+    "russian_word": "Сомневаться",
+    "issues": [
+      "Latin character(s) ['c'] in Russian example: 'Не позволяй никому заставить тебя сомневаться в правильности cвоего решения.'"
+    ]
+  }
+]

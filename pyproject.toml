@@ -1,0 +1,18 @@
+[project]
+name = "russian-vocab-extractor"
+version = "1.0.0"
+description = "Extracts 2000 most common Russian vocabulary entries from PDF using PyMuPDF"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pymupdf==1.28.2",
+    "tqdm==4.70.1",
+]
+
+[project.scripts]
+extract-vocab = "extract:main"
+validate-vocab = "validate:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
