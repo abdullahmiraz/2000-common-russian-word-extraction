@@ -5,7 +5,7 @@
 \usepackage[a4paper,
             top=16mm, bottom=16mm,
             left=16mm, right=16mm,
-            headheight=20pt, headsep=12pt, footskip=18pt]{geometry}
+            headheight=22pt, headsep=12pt, footskip=18pt]{geometry}
 
 % Suppress empty pages on chapter / section breaks
 \let\cleardoublepage\clearpage
@@ -35,13 +35,14 @@
 % Microtypography
 \usepackage{microtype}
 
-% Colors
+% Colors - High-contrast and crisp readability
 \usepackage[dvipsnames]{xcolor}
-\definecolor{primary}{HTML}{0F2942}      % Deep Classic Navy
-\definecolor{secondary}{HTML}{1A5276}    % Slate Blue
+\definecolor{primary}{HTML}{0B2238}      % Deep Classic Navy for headwords
+\definecolor{secondary}{HTML}{1A5276}    % Slate Blue for accents & phonetics
 \definecolor{accent}{HTML}{9C0006}       % Deep Ruby
-\definecolor{darktext}{HTML}{1C2833}     % High-contrast Body text
-\definecolor{mutedtext}{HTML}{566573}    % Neutral Gray for translations
+\definecolor{darktext}{HTML}{111827}     % Crisp Near-Black for Russian sentences
+\definecolor{entext}{HTML}{243342}       % Rich Dark Charcoal Slate for English translations (well visible)
+\definecolor{mutedtext}{HTML}{4A5568}    % Medium Slate for subtitles & page headers
 \definecolor{bordercol}{HTML}{BDC3C7}    % Divider lines
 \definecolor{boxborder}{HTML}{1A5276}    % Thick border for serial number
 
@@ -61,7 +62,7 @@
   \renewcommand{\headrulewidth}{0pt}
 }
 
-% Chapter & Section titles (Compact, no wasted vertical space)
+% Chapter & Section titles
 \usepackage{titlesec}
 \titleformat{\chapter}[hang]
   {\normalfont\sffamily\LARGE\bfseries\color{primary}}
@@ -110,7 +111,7 @@
   \endgroup
 }
 
-% Optimized Entry Macro: Larger readable fonts, thick bordered numbers, compact flow
+% Optimized Entry Macro: Larger readable fonts, thick bordered numbers, well-visible English text
 \newcommand{\vocentry}[6]{%
   \noindent
   \begin{minipage}{\linewidth}
@@ -128,7 +129,7 @@
     \hangindent=0.8em\hangafter=1\small
     \noindent\textcolor{darktext}{#5}\par
     \vspace{0.08em}%
-    \noindent\textcolor{mutedtext}{\textit{#6}}%
+    \noindent\textcolor{entext}{\textit{#6}}%
   \end{minipage}%
   \vspace{0.55em}\par
 }
